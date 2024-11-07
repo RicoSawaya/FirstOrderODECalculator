@@ -1,0 +1,55 @@
+from sympy import *
+import math
+from tkinter import *
+
+tk = Tk()
+tk.title('ODE calculator')
+
+def run():
+    try:
+        x = symbols('x')
+        c = symbols('C')
+
+        #Put in this form:
+        # I'+p(x)I = r(x)
+        Px = sympify(pEntry.get())
+        Rx = sympify(rEntry.get())
+
+
+
+        Hx = integrate(Px, x)
+
+        ans = exp(-1 * Hx) * integrate(exp(Hx)*Rx,x) + exp(-1 * Hx) * c
+
+        ans = str(ans).replace('exp','e^')
+        ans = ans.replace('**','^')
+
+        answer = 'y = ' +ans
+        ansText.configure(text = answer)
+    except:
+        pass
+
+
+dydxLab = Label(tk,text = "y' + ",font = ('Airel',15))
+dydxLab.place(relx = 0.15,rely = 0.2,anchor = CENTER)
+
+pEntry = Entry(tk,font = ('Airel',15))
+pEntry.place(relx = 0.35,rely = 0.2,anchor = CENTER,width = 70)
+
+yLab = Label(tk,text = "y",font = ('Airel',15))
+yLab.place(relx = 0.5,rely = 0.2,anchor = CENTER)
+
+eqLab = Label(tk,text = "=",font = ('Airel',15))
+eqLab.place(relx = 0.57,rely = 0.2,anchor = CENTER)
+
+rEntry = Entry(tk,font = ('Airel',15))
+rEntry.place(relx = 0.73,rely = 0.2,anchor = CENTER,width = 70)
+
+runBut = Button(tk,text = 'Find y',bg = 'green', font = ('Ariel',15),command = run)
+runBut.place(relx=0.5,rely = 0.45,anchor = CENTER)
+
+ansText = Label(tk,text = '',wraplength = 280,font = ('Ariel',12))
+ansText.place(relx=0.5,rely = 0.68,anchor = CENTER)
+
+tk.geometry('300x200')
+tk.mainloop()
